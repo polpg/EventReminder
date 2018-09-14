@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Event Reminder</string>
+    <string name="menu_add">Añadir</string>
+    <string name="add">Añadir un nuevo evento</string>
+    <string name="msg_empty">Pulsa (+) para añadir un nuevo evento!</string>
+    <string name="label_dueDate">Fecha:</string>
+    <string name="menu_edit">Editar</string>
+    <string name="title">Título</string>
+    <string name="desc">Descripcion</string>
+    <string name="dueDate">Fecha</string>
+    <string name="menu_save">Guardar</string>
+    <string name="menu_delete">Eliminar</string>
+    <string name="label_dueTime">Tiempo:</string>
+    <string name="delete_confirm">¿Quieres eliminar este evento?</string>
+    <string name="cancel">Cancelar</string>
+</resources>

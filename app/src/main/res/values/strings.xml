@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Event Reminder</string>
+    <string name="menu_add">Add</string>
+    <string name="add">Add a new event</string>
+    <string name="msg_empty">Click (+) to add a new event!</string>
+    <string name="label_dueDate">Due Date:</string>
+    <string name="menu_edit">Edit</string>
+    <string name="title">Title</string>
+    <string name="desc">Description</string>
+    <string name="dueDate">Due Date</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_delete">Delete</string>
+    <string name="label_dueTime">Time:</string>
+    <string name="delete_confirm">Are you sure you want to delete the event?</string>
+    <string name="cancel">Cancel</string>
+</resources>

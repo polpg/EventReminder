@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+  api compatibility("compat")
+  api compatibility("core_ui")
+  api compatibility("core_utils")
+  api compatibility("fragment")
+  api compatibility("v7/appcompat")
+
+  api project(fromPath("demos/java/io/material/demo/shrine/theme"))
+}
+
+android {
+  sourceSets {
+    main {
+      java.includes = ['*.java']
+      java.srcDirs = ['.']
+      java.excludes = [
+        '**/build/**',
+      ]
+      res.srcDirs = ['res']
+      manifest.srcFile 'AndroidManifest.xml'
+    }
+  }
+}

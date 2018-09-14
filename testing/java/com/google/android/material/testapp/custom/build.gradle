@@ -1,0 +1,21 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+  api compatibility("compat")
+  api compatibility("v7/appcompat")
+
+  api project(fromPath("lib"))
+}
+
+android {
+  sourceSets {
+    main.manifest.srcFile 'AndroidManifest.xml'
+    main.java.srcDirs = [ '.' ]
+    main.java.excludes = [
+      '**/build/**',
+    ]
+    // Only include things in this directory, not subdirectories
+    main.java.includes = [ '*.java' ]
+    main.res.srcDirs = [ 'res' ]
+  }
+}

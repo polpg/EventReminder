@@ -1,0 +1,21 @@
+apply plugin: 'com.android.application'
+
+dependencies {
+  implementation project(fromPath("demos/java/io/material/demo/shrine/filters"))
+  implementation project(fromPath("demos/java/io/material/demo/shrine/products"))
+  implementation project(fromPath("demos/java/io/material/demo/shrine/theme"))
+}
+
+android {
+  sourceSets {
+    main {
+      java.includes = ['*.java']
+      java.srcDirs = ['.']
+      main.java.excludes = [
+        '**/build/**',
+      ]
+      res.srcDirs = ['res']
+      manifest.srcFile 'AndroidManifest.xml'
+    }
+  }
+}

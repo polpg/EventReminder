@@ -1,0 +1,35 @@
+apply plugin: 'com.android.test'
+
+dependencies {
+  implementation ("com.android.support.test:runner:${project.rootProject.ext.testRunnerVersion}") {
+    exclude module: 'support-annotations'
+  }
+  implementation ("com.android.support.test.espresso:espresso-core:${project.rootProject.ext.espressoVersion}") {
+    exclude module: 'support-annotations'
+  }
+  implementation ("com.android.support.test.espresso:espresso-contrib:${project.rootProject.ext.espressoVersion}") {
+    exclude group: 'com.android.support'
+  }
+  implementation 'org.mockito:mockito-core:1.9.5'
+  implementation 'com.google.dexmaker:dexmaker:1.2'
+  implementation 'com.google.dexmaker:dexmaker-mockito:1.2'
+}
+
+android {
+  defaultConfig {
+    testApplicationId "com.google.android.material.tests"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  targetProjectPath getTransformedProjectPath('testing/java/com/google/android/material/testapp')
+
+  sourceSets {
+    main.setRoot('./')
+    main.java.srcDir 'javatests'
+    main.java.excludes = [
+      '**/animation/**',
+      '**/build/**',
+    ]
+    main.manifest.srcFile 'javatests/com/google/android/material/AndroidManifest.xml'
+  }
+}

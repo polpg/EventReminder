@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+  api compatibility("v7/appcompat")
+  api compatibility("v7/cardview")
+  api compatibility("v7/recyclerview")
+
+  api 'com.android.volley:volley:1.0.0'
+  api 'com.google.code.gson:gson:2.2.4'
+  api project(':lib')
+
+  api project(fromPath("demos/java/io/material/demo/shrine/filters"))
+  api project(fromPath("demos/java/io/material/demo/shrine/theme"))
+}
+
+android {
+  sourceSets {
+    main {
+      java.includes = ['*.java']
+      java.srcDirs = ['.']
+      java.excludes = [
+        '**/build/**',
+      ]
+      res.srcDirs = ['res']
+      manifest.srcFile 'AndroidManifest.xml'
+    }
+  }
+}
