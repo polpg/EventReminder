@@ -1,13 +1,21 @@
 apply plugin: 'com.android.application'
 
+
+ext.versionMajor = 0
+ext.versionMinor = 1
+ext.versionPatch = 0
+ext.versionClassifier = null
+ext.isSnapshot = true
+ext.minimumSdkVersion = 16
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "cat.polpadilla.eventreminder"
-        minSdkVersion 16
+        minSdkVersion project.ext.minimumSdkVersion
         targetSdkVersion 28
-        versionCode 1
-        versionName "0.1"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         testApplicationId "cat.polpadilla.eventreminder.test"
@@ -16,6 +24,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def appName = "Event Reminder"
+                    outputFileName = appName+"-${variant.versionName}.apk"
+                }
+            }
         }
     }
     dataBinding {
@@ -25,6 +39,22 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null && ext.isSnapshot) {
+        ext.versionClassifier = "SNAPSHOT"
+    }
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName
 }
 
 dependencies {
