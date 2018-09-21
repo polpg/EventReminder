@@ -67,6 +67,7 @@ fastlane/test_output
 fastlane/readme.md
 
 #material tests
+catalog/
 demos/
 testing/
 tests/
