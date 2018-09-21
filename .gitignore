@@ -1,4 +1,5 @@
 # Built application files
+app/release/
 *.apk
 *.ap_
 
@@ -41,6 +42,7 @@ captures/
 .idea/dictionaries
 .idea/libraries
 .idea/caches
+.idea/vcs.xml
 
 # Keystore files
 # Uncomment the following line if you do not want to check your keystore files in.
@@ -63,3 +65,9 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+#material tests
+demos/
+testing/
+tests/
+lib/

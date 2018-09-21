@@ -70,10 +70,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        /*
-        DividerItemDecoration decoration= new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL);
-
-        rv.addItemDecoration(decoration);*/
 
         OverScrollDecoratorHelper.setUpOverScroll(rv, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
