@@ -1,21 +1,28 @@
 package cat.polpadilla.eventreminder;
 
-import androidx.annotation.Nullable;
-
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class ViewState {
     public abstract List<EventModel> items();
     @Nullable public abstract EventModel current();
     public abstract boolean isLoaded();
+    public abstract LocalDate selectedDate();
 
     static Builder builder() {
-        return new AutoValue_ViewState.Builder().isLoaded(false);
+        return new AutoValue_ViewState.Builder()
+                .isLoaded(false)
+                .selectedDate(CalendarDay.today().getDate());
     }
 
     @AutoValue.Builder
@@ -23,6 +30,7 @@ public abstract class ViewState {
         abstract Builder items(List<EventModel> items);
         abstract Builder current(EventModel current);
         abstract Builder isLoaded(boolean isLoaded);
+        abstract Builder selectedDate(LocalDate selectedDate);
         abstract ViewState build();
     }
 
@@ -31,7 +39,11 @@ public abstract class ViewState {
     }
 
     Builder toBuilder() {
-        return builder().items(items()).current(current()).isLoaded(isLoaded());
+        return builder()
+                .items(items())
+                .current(current())
+                .isLoaded(isLoaded())
+                .selectedDate(selectedDate());
     }
 
     private void sort(List<EventModel> models){
@@ -51,6 +63,11 @@ public abstract class ViewState {
         int position = findPosition(models, id);
 
         return position>=0 ? models.get(position) : null;
+    }
+
+    @Memoized
+    public List<EventModel> filteredItems(){
+        return EventModel.filter(items(), selectedDate());
     }
 
     ViewState add(EventModel model){
@@ -106,5 +123,10 @@ public abstract class ViewState {
                 .build();
     }
 
+    ViewState filter (LocalDate date){
+        return toBuilder()
+                .selectedDate(date)
+                .build();
+    }
 
 }

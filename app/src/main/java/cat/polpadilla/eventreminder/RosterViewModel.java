@@ -4,11 +4,10 @@ import android.app.Application;
 
 import java.util.List;
 
-import androidx.lifecycle.AndroidViewModel;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
-import androidx.lifecycle.MutableLiveData;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
@@ -45,23 +44,21 @@ public class RosterViewModel extends AndroidViewModel {
         actionSubject.onNext(action);
     }
 
-    private ViewState foldResultIntoState(@NonNull ViewState state, @NonNull Result result) throws Exception{
-        if (result instanceof  Result.Added){
-            return state.add(((Result.Added)result).model());
-        } else if (result instanceof Result.Modified){
-            return state.modify(((Result.Modified)result).model());
-        } else if(result instanceof Result.Deleted) {
-            return state.delete(((Result.Deleted)result).model());
-        } else if(result instanceof Result.Loaded) {
-            List<EventModel> models = ((Result.Loaded)result).models();
+    private ViewState foldResultIntoState(@NonNull ViewState state, @NonNull Result result) throws Exception {
+        if (result instanceof Result.Added) {
+            return state.add(((Result.Added) result).model());
+        } else if (result instanceof Result.Modified) {
+            return state.modify(((Result.Modified) result).model());
+        } else if (result instanceof Result.Deleted) {
+            return state.delete(((Result.Deleted) result).model());
+        } else if (result instanceof Result.Loaded) {
+            List<EventModel> models = ((Result.Loaded) result).models();
 
-            return ViewState.builder()
-                    .items(models)
-                    .current(models.size()==0 ? null : models.get(0))
-                    .isLoaded(true)
-                    .build();
-        } else if (result instanceof  Result.Showed){
-            return state.show(((Result.Showed)result).current());
+            return ViewState.builder().items(models).current(models.size() == 0 ? null : models.get(0)).isLoaded(true).build();
+        } else if (result instanceof Result.Showed) {
+            return state.show(((Result.Showed) result).current());
+        } else if (result instanceof Result.Filtered){
+            return state.filter(((Result.Filtered) result).selectedDate());
         } else {
             throw new IllegalStateException("Unexpected result type: " + result.toString());
         }

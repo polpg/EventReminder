@@ -2,6 +2,8 @@ package cat.polpadilla.eventreminder;
 
 import com.google.auto.value.AutoValue;
 
+import org.threeten.bp.LocalDate;
+
 public abstract class Action {
     @AutoValue
     public static abstract class Add extends Action{
@@ -26,6 +28,11 @@ public abstract class Action {
     public static class Load extends Action{
     }
 
+    @AutoValue
+    static abstract class Filter extends Action{
+        abstract LocalDate selectedDate();
+    }
+
     public static Action add(EventModel model) {
         return new AutoValue_Action_Add(model);
     }
@@ -40,5 +47,8 @@ public abstract class Action {
     }
     public static Action load() {
         return new Action.Load();
+    }
+    public static Action filter(LocalDate date){
+        return (new AutoValue_Action_Filter(date));
     }
 }

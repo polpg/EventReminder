@@ -2,6 +2,8 @@ package cat.polpadilla.eventreminder;
 
 import com.google.auto.value.AutoValue;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +34,12 @@ public abstract class Result {
         public abstract List<EventModel> models();
     }
 
-    public static Result added(EventModel model) {
+    @AutoValue
+    static abstract class Filtered extends Result{
+        public abstract LocalDate selectedDate();
+    }
+
+    static Result added(EventModel model) {
         return new AutoValue_Result_Added(model);
     }
 
@@ -40,15 +47,19 @@ public abstract class Result {
         return new AutoValue_Result_Modified(model);
     }
 
-    public static Result deleted(EventModel model) {
+    static Result deleted(EventModel model) {
         return new AutoValue_Result_Deleted(model);
     }
 
-    public static Result showed(EventModel current) {
+    static Result showed(EventModel current) {
         return new AutoValue_Result_Showed(current);
     }
 
-    public static Result loaded(List<EventModel> models) {
+    static Result loaded(List<EventModel> models) {
         return new AutoValue_Result_Loaded(Collections.unmodifiableList(models));
+    }
+
+    static Result filtered(LocalDate date){
+        return (new AutoValue_Result_Filtered(date));
     }
 }

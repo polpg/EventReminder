@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().addOnBackStackChangedListener(() ->{
             Fragment current =  getSupportFragmentManager().findFragmentByTag("current");
             if (current instanceof HomeFragment){
-                bottomAppBar.replaceMenu(R.menu.empty);
                 bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
                 fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp));
             } else if (current instanceof EditFragment){

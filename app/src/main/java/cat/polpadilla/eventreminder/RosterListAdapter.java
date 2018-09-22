@@ -1,11 +1,11 @@
 package cat.polpadilla.eventreminder;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import cat.polpadilla.eventreminder.databinding.EventRowBinding;
 
 public class RosterListAdapter extends RecyclerView.Adapter<RosterRowHolder> {
@@ -41,7 +41,7 @@ public class RosterListAdapter extends RecyclerView.Adapter<RosterRowHolder> {
     }
 
     void setState (ViewState state){
-        models=state.items();
+        models=state.filteredItems();
         notifyDataSetChanged();
     }
 }
