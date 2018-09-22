@@ -39,7 +39,8 @@ public class HomeFragment extends Fragment {
     private View div;
     private MaterialCalendarView calendar;
     private List<CalendarDay> dates = new ArrayList<>();
-    public static boolean filtered = false;
+    private BottomAppBar bottomAppBar;
+    static boolean filtered = false;
 
     @Nullable
     @Override
@@ -63,8 +64,7 @@ public class HomeFragment extends Fragment {
                 });
 
 
-        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
-        bottomAppBar.replaceMenu(R.menu.actions_home);
+        bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setOnMenuItemClickListener((MenuItem item) ->{
             if (item.getItemId()==R.id.reset_filter){
                 filtered=false;
@@ -128,12 +128,19 @@ public class HomeFragment extends Fragment {
                 empty.setText(R.string.msg_empty);
                 div.setVisibility(View.GONE);
                 calendar.setVisibility(View.GONE);
+                bottomAppBar.replaceMenu(R.menu.empty);
 
             } else if (state.filteredItems().size()==0){
                 empty.setVisibility(View.VISIBLE);
                 empty.setText(R.string.msg_empty_day);
                 div.setVisibility(View.VISIBLE);
                 calendar.setVisibility(View.VISIBLE);
+                if (filtered){
+                    bottomAppBar.replaceMenu(R.menu.actions_home);
+                } else {
+                    bottomAppBar.replaceMenu(R.menu.empty);
+                }
+
 
             } else {
                 empty.setVisibility(View.GONE);
@@ -143,6 +150,11 @@ public class HomeFragment extends Fragment {
                 dates.clear();
                 addModelsToDatesList(state.items());
                 calendar.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.colorPrimary), dates));
+                if (filtered){
+                    bottomAppBar.replaceMenu(R.menu.actions_home);
+                } else {
+                    bottomAppBar.replaceMenu(R.menu.empty);
+                }
 
             }
         } else {
