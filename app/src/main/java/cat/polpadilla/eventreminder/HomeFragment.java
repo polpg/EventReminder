@@ -23,8 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import cat.polpadilla.eventreminder.calendarDecorators.DisabledDecorator;
 import cat.polpadilla.eventreminder.calendarDecorators.EventDecorator;
+import cat.polpadilla.eventreminder.calendarDecorators.SelectorDecorator;
 import cat.polpadilla.eventreminder.calendarDecorators.TodayDecorator;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -49,11 +49,10 @@ public class HomeFragment extends Fragment {
 
         calendar=result.findViewById(R.id.calendarView);
 
-        calendar.addDecorator(new DisabledDecorator(getContext(), R.color.colorPrimaryText));
-        calendar.addDecorator(new TodayDecorator(getContext(), R.color.colorPrimaryDark));
-
-        //calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-        //calendar.setSelectedDate(CalendarDay.today());
+        calendar.addDecorators(
+                new SelectorDecorator(getContext()),
+                new TodayDecorator(getContext(), R.color.colorPrimaryDark)
+        );
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener((View v) -> ((Contract)getActivity()).addModel());
