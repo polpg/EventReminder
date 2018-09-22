@@ -62,10 +62,10 @@ public class EditFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = EventEditBinding.inflate(getLayoutInflater(), container, false);
 
-        Button bttnDueDate = binding.getRoot().findViewById(R.id.dueDate);
+        Button bttnDueDate = binding.getRoot().findViewById(R.id.btnDueDate);
         bttnDueDate.setOnClickListener((View v) -> showDatePickerDialog());
 
-        Button bttnDueTime = binding.getRoot().findViewById(R.id.dueTime);
+        Button bttnDueTime = binding.getRoot().findViewById(R.id.btnDueTime);
         bttnDueTime.setOnClickListener((View v) -> showTimePickerDialog());
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
@@ -196,9 +196,7 @@ public class EditFragment extends Fragment
                         ((Contract)getActivity()).finishEdit(true);
                         dialog.dismiss();
                     })
-                .setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> {
-                    dialog.dismiss();
-                })
+                .setNegativeButton(R.string.cancel, (DialogInterface dialog, int which) -> dialog.dismiss())
                 .setCancelable(true)
                 .create();
         deleteDialog.show();

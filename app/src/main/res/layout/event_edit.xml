@@ -58,11 +58,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dueTime"
+        app:layout_constraintTop_toBottomOf="@+id/btnDueTime"
         tools:targetApi="o" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/dueDate"
+        android:id="@+id/btnDueDate"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:layout_width="0dp"
@@ -85,12 +85,12 @@
         android:layout_marginStart="8dp"
         android:text="@string/label_dueDate"
         android:textSize="@dimen/dueDate_size"
-        app:layout_constraintBottom_toBottomOf="@+id/dueDate"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDueDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dueDate" />
+        app:layout_constraintTop_toTopOf="@+id/btnDueDate" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/dueTime"
+        android:id="@+id/btnDueTime"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
         android:layout_width="wrap_content"
@@ -98,9 +98,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="@{dueTime}"
-        app:layout_constraintBottom_toBottomOf="@+id/dueDate"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDueDate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dueDate" />
+        app:layout_constraintTop_toTopOf="@+id/btnDueDate" />
 
     <TextView
         android:id="@+id/label_dueTime"
@@ -111,9 +111,9 @@
         android:text="@string/label_dueTime"
         android:textSize="@dimen/dueDate_size"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/dueTime"
-        app:layout_constraintEnd_toStartOf="@+id/dueTime"
-        app:layout_constraintTop_toTopOf="@+id/dueTime" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnDueTime"
+        app:layout_constraintEnd_toStartOf="@+id/btnDueTime"
+        app:layout_constraintTop_toTopOf="@+id/btnDueTime" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
