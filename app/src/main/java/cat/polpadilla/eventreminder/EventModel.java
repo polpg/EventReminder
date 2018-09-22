@@ -52,17 +52,17 @@ public abstract class EventModel {
     public static List<EventModel> filter(List<EventModel> models, LocalDate selectedDate){
         List<EventModel> result;
 
-        if (selectedDate!=null){
-            result=new ArrayList<>();
+        if (HomeFragment.filtered){
+            result = new ArrayList<>();
 
-            for (EventModel model : models){
-                LocalDate modelDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
-                if (modelDate.equals(selectedDate)){
-                    result.add(model);
+                for (EventModel model : models) {
+                    LocalDate modelDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
+                    if (modelDate.equals(selectedDate)) {
+                        result.add(model);
+                    }
                 }
-            }
         } else {
-            result=new ArrayList<>(models);
+            result = new ArrayList<>(models);
         }
         return result;
     }

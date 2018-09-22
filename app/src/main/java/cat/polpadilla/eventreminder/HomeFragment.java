@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment {
             if (item.getItemId()==R.id.reset_filter){
                 filtered=false;
                 calendar.clearSelection();
-                viewModel.stateStream().observe(this, this::render);
+                viewModel.process(Action.filter(CalendarDay.today().getDate()));
                 Toast.makeText(getContext(), R.string.cleared_filters, Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -100,6 +100,17 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void addModelsToDatesList(List<EventModel> models){
+        for (int i=0;i<models.size();i++){
+            EventModel model = models.get(i);
+
+            if (model.dueDate() !=null){
+                LocalDate localDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
+                dates.add(CalendarDay.from(localDate));
+            }
+        }
+    }
+
     public void render(ViewState state){
         adapter.setState(state);
 
@@ -117,30 +128,27 @@ public class HomeFragment extends Fragment {
                 empty.setText(R.string.msg_empty);
                 div.setVisibility(View.GONE);
                 calendar.setVisibility(View.GONE);
+
             } else if (state.filteredItems().size()==0){
                 empty.setVisibility(View.VISIBLE);
                 empty.setText(R.string.msg_empty_day);
                 div.setVisibility(View.VISIBLE);
                 calendar.setVisibility(View.VISIBLE);
+
             } else {
                 empty.setVisibility(View.GONE);
                 div.setVisibility(View.VISIBLE);
-
+                calendar.setVisibility(View.VISIBLE);
+                //Add EventDecorators
                 dates.clear();
-                for (int i=0;i<state.items().size();i++){
-                    EventModel model = state.items().get(i);
-
-                    if (model.dueDate() !=null){
-                        LocalDate localDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
-                        dates.add(CalendarDay.from(localDate));
-                    }
-                }
+                addModelsToDatesList(state.items());
                 calendar.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.colorPrimary), dates));
 
             }
         } else {
             progress.setVisibility(View.VISIBLE);
             empty.setVisibility(View.GONE);
+            calendar.setVisibility(View.GONE);
         }
     }
 

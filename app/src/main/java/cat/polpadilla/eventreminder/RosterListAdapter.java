@@ -41,11 +41,7 @@ public class RosterListAdapter extends RecyclerView.Adapter<RosterRowHolder> {
     }
 
     void setState (ViewState state){
-        if (HomeFragment.filtered){
-            models=state.filteredItems();
-        } else {
-            models=state.items();
-        }
+        models=state.filteredItems();
         notifyDataSetChanged();
     }
 }
