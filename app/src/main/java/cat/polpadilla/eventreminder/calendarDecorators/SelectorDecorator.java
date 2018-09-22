@@ -14,11 +14,11 @@ import cat.polpadilla.eventreminder.R;
 public class SelectorDecorator implements DayViewDecorator {
 
     private final Context context;
-    private final Drawable drawable;
+    private final Drawable background;
 
     public SelectorDecorator(Context context){
         this.context = context;
-        drawable = context.getResources().getDrawable(R.drawable.calendar_selector);
+        background = context.getResources().getDrawable(R.drawable.calendar_selector);
     }
     @Override
     public boolean shouldDecorate(CalendarDay calendarDay) {
@@ -27,7 +27,7 @@ public class SelectorDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.setSelectionDrawable(drawable);
+        view.setSelectionDrawable(background);
         view.addSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryText)));
     }
 }
