@@ -1,7 +1,6 @@
 package cat.polpadilla.eventreminder.calendarDecorators;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.style.ForegroundColorSpan;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -9,16 +8,15 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 import androidx.core.content.ContextCompat;
-import cat.polpadilla.eventreminder.R;
 
-public class SelectorDecorator implements DayViewDecorator {
+public class DisabledDecorator implements DayViewDecorator {
 
-    private final Context context;
-    private final Drawable background;
+    private Context context;
+    private int color;
 
-    public SelectorDecorator(Context context){
-        this.context = context;
-        background = context.getResources().getDrawable(R.drawable.calendar_selector);
+    public DisabledDecorator (Context context, int color){
+        this.context=context;
+        this.color=color;
     }
     @Override
     public boolean shouldDecorate(CalendarDay calendarDay) {
@@ -27,7 +25,7 @@ public class SelectorDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.setSelectionDrawable(background);
-        view.addSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryText)));
+        view.addSpan(new ForegroundColorSpan(ContextCompat.getColor(context, color)));
+        view.setDaysDisabled(true);
     }
 }
