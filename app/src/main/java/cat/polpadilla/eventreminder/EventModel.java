@@ -1,12 +1,16 @@
 package cat.polpadilla.eventreminder;
 
-import androidx.annotation.Nullable;
-
 import com.google.auto.value.AutoValue;
 
+import org.threeten.bp.LocalDate;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
+
+import androidx.annotation.Nullable;
 
 @AutoValue
 public abstract class EventModel {
@@ -45,4 +49,21 @@ public abstract class EventModel {
     static final Comparator<EventModel> SORT_BY_DATE =
             (one,two) -> (one.dueDate().compareTo(two.dueDate()));
 
+    public static List<EventModel> filter(List<EventModel> models, LocalDate selectedDate){
+        List<EventModel> result;
+
+        if (selectedDate!=null){
+            result=new ArrayList<>();
+
+            for (EventModel model : models){
+                LocalDate modelDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
+                if (modelDate.equals(selectedDate)){
+                    result.add(model);
+                }
+            }
+        } else {
+            result=new ArrayList<>(models);
+        }
+        return result;
+    }
 }

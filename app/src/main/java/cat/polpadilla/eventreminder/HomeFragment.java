@@ -2,16 +2,18 @@ package cat.polpadilla.eventreminder;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZoneId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +32,14 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class HomeFragment extends Fragment {
     private RecyclerView rv;
-    private View empty , progress;
+    private View progress;
+    private TextView empty;
     private RosterViewModel viewModel;
     private RosterListAdapter adapter;
     private View div;
     private MaterialCalendarView calendar;
     private List<CalendarDay> dates = new ArrayList<>();
+    public static boolean filtered = false;
 
     @Nullable
     @Override
@@ -52,6 +56,25 @@ public class HomeFragment extends Fragment {
         calendar.addDecorators(
                 new SelectorDecorator(getContext()),
                 new TodayDecorator(getContext(), R.color.colorPrimaryDark));
+
+        calendar.setOnDateChangedListener((@NonNull MaterialCalendarView calendarView, @NonNull CalendarDay calendarDay, boolean b) ->{
+                    viewModel.process(Action.filter(calendarDay.getDate()));
+                    filtered=true;
+                });
+
+
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.replaceMenu(R.menu.actions_home);
+        bottomAppBar.setOnMenuItemClickListener((MenuItem item) ->{
+            if (item.getItemId()==R.id.reset_filter){
+                filtered=false;
+                calendar.clearSelection();
+                viewModel.stateStream().observe(this, this::render);
+                Toast.makeText(getContext(), R.string.cleared_filters, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        });
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener((View v) -> ((Contract)getActivity()).addModel());
@@ -80,19 +103,27 @@ public class HomeFragment extends Fragment {
     public void render(ViewState state){
         adapter.setState(state);
 
-        calendar.setCurrentDate(CalendarDay.today(), true);
+        if (calendar.getSelectedDate()!=null){
+            calendar.setCurrentDate(calendar.getSelectedDate());
+        } else {
+            calendar.setCurrentDate(CalendarDay.today(), true);
+        }
 
         if (state.isLoaded()){
             progress.setVisibility(View.GONE);
 
-            if (adapter.getItemCount()==0){
+            if (state.items().size()==0) {
                 empty.setVisibility(View.VISIBLE);
-                calendar.setVisibility(View.GONE);
+                empty.setText(R.string.msg_empty);
                 div.setVisibility(View.GONE);
-
+                calendar.setVisibility(View.GONE);
+            } else if (state.filteredItems().size()==0){
+                empty.setVisibility(View.VISIBLE);
+                empty.setText(R.string.msg_empty_day);
+                div.setVisibility(View.VISIBLE);
+                calendar.setVisibility(View.VISIBLE);
             } else {
                 empty.setVisibility(View.GONE);
-                calendar.setVisibility(View.VISIBLE);
                 div.setVisibility(View.VISIBLE);
 
                 dates.clear();
@@ -100,10 +131,7 @@ public class HomeFragment extends Fragment {
                     EventModel model = state.items().get(i);
 
                     if (model.dueDate() !=null){
-                        LocalDate localDate  = Instant.ofEpochMilli
-                                (model.dueDate().getTimeInMillis())
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate();
+                        LocalDate localDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
                         dates.add(CalendarDay.from(localDate));
                     }
                 }

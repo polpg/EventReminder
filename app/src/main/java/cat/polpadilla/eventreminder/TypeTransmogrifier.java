@@ -1,5 +1,9 @@
 package cat.polpadilla.eventreminder;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+
 import java.util.Calendar;
 
 import androidx.room.TypeConverter;
@@ -23,5 +27,14 @@ public class TypeTransmogrifier {
 
         result.setTimeInMillis(millisSinceEpoch);
         return result;
+    }
+
+    @TypeConverter
+    public static LocalDate dateFromCalendar (Calendar date){
+        LocalDate localDate  = Instant.ofEpochMilli
+                (date.getTimeInMillis())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        return localDate;
     }
 }

@@ -2,6 +2,8 @@ package cat.polpadilla.eventreminder;
 
 import android.content.Context;
 
+import org.threeten.bp.LocalDate;
+
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
@@ -32,6 +34,8 @@ public class Controller {
             load();
         } else if (action instanceof  Action.Show){
             show(((Action.Show)action).current());
+        } else  if (action instanceof Action.Filter){
+            filter(((Action.Filter)action).selectedDate());
         }
     }
 
@@ -53,6 +57,9 @@ public class Controller {
     }
     private void show(EventModel current){
         resultSubject.onNext(Result.showed(current));
+    }
+    private void filter(LocalDate date){
+        resultSubject.onNext(Result.filtered(date));
     }
 
 

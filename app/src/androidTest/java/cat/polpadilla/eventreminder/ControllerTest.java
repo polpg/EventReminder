@@ -1,10 +1,11 @@
 package cat.polpadilla.eventreminder;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -88,5 +89,10 @@ public class ControllerTest {
         resultDeleted=
                 (Result.Deleted)receivedResults.poll(1, TimeUnit.SECONDS);
         assertEquals(gooModel, resultDeleted.model());
+
+        actionSubject.onNext(Action.filter(CalendarDay.today().getDate()));
+        Result.Filtered resultFiltered=
+                (Result.Filtered)receivedResults.poll(1, TimeUnit.SECONDS);
+        assertEquals(CalendarDay.today().getDate(), resultFiltered.selectedDate());
     }
 }

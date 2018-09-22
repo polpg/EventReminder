@@ -14,4 +14,7 @@
     <string name="label_dueTime">Tiempo:</string>
     <string name="delete_confirm">¿Quieres eliminar este evento?</string>
     <string name="cancel">Cancelar</string>
+    <string name="msg_empty_day">Parece que no hay eventos para este día.</string>
+    <string name="cleared_filters">Filtros eliminados</string>
+    <string name="filter_clear">Eliminar Filtros</string>
 </resources>
