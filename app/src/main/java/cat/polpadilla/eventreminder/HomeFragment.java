@@ -2,16 +2,18 @@ package cat.polpadilla.eventreminder;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
-import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZoneId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +25,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import cat.polpadilla.eventreminder.calendarDecorators.DisabledDecorator;
 import cat.polpadilla.eventreminder.calendarDecorators.EventDecorator;
+import cat.polpadilla.eventreminder.calendarDecorators.SelectorDecorator;
 import cat.polpadilla.eventreminder.calendarDecorators.TodayDecorator;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class HomeFragment extends Fragment {
     private RecyclerView rv;
-    private View empty , progress;
+    private View progress;
+    private TextView empty;
     private RosterViewModel viewModel;
     private RosterListAdapter adapter;
     private View div;
     private MaterialCalendarView calendar;
     private List<CalendarDay> dates = new ArrayList<>();
+    private BottomAppBar bottomAppBar;
+    static boolean filtered = false;
 
     @Nullable
     @Override
@@ -49,11 +54,27 @@ public class HomeFragment extends Fragment {
 
         calendar=result.findViewById(R.id.calendarView);
 
-        calendar.addDecorator(new DisabledDecorator(getContext(), R.color.colorPrimaryText));
-        calendar.addDecorator(new TodayDecorator(getContext(), R.color.colorPrimaryDark));
+        calendar.addDecorators(
+                new SelectorDecorator(getContext()),
+                new TodayDecorator(getContext(), R.color.colorPrimaryDark));
 
-        //calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-        //calendar.setSelectedDate(CalendarDay.today());
+        calendar.setOnDateChangedListener((@NonNull MaterialCalendarView calendarView, @NonNull CalendarDay calendarDay, boolean b) ->{
+                    viewModel.process(Action.filter(calendarDay.getDate()));
+                    filtered=true;
+                });
+
+
+        bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.setOnMenuItemClickListener((MenuItem item) ->{
+            if (item.getItemId()==R.id.reset_filter){
+                filtered=false;
+                calendar.clearSelection();
+                viewModel.process(Action.filter(CalendarDay.today().getDate()));
+                Toast.makeText(getContext(), R.string.cleared_filters, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        });
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener((View v) -> ((Contract)getActivity()).addModel());
@@ -79,42 +100,67 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void addModelsToDatesList(List<EventModel> models){
+        for (int i=0;i<models.size();i++){
+            EventModel model = models.get(i);
+
+            if (model.dueDate() !=null){
+                LocalDate localDate = TypeTransmogrifier.dateFromCalendar(model.dueDate());
+                dates.add(CalendarDay.from(localDate));
+            }
+        }
+    }
+
     public void render(ViewState state){
         adapter.setState(state);
 
-        calendar.setCurrentDate(CalendarDay.today(), true);
+        if (calendar.getSelectedDate()!=null){
+            calendar.setCurrentDate(calendar.getSelectedDate());
+        } else {
+            calendar.setCurrentDate(CalendarDay.today(), true);
+        }
 
         if (state.isLoaded()){
             progress.setVisibility(View.GONE);
 
-            if (adapter.getItemCount()==0){
+            if (state.items().size()==0) {
                 empty.setVisibility(View.VISIBLE);
-                calendar.setVisibility(View.GONE);
+                empty.setText(R.string.msg_empty);
                 div.setVisibility(View.GONE);
+                calendar.setVisibility(View.GONE);
+                bottomAppBar.replaceMenu(R.menu.empty);
+
+            } else if (state.filteredItems().size()==0){
+                empty.setVisibility(View.VISIBLE);
+                empty.setText(R.string.msg_empty_day);
+                div.setVisibility(View.VISIBLE);
+                calendar.setVisibility(View.VISIBLE);
+                if (filtered){
+                    bottomAppBar.replaceMenu(R.menu.actions_home);
+                } else {
+                    bottomAppBar.replaceMenu(R.menu.empty);
+                }
+
 
             } else {
                 empty.setVisibility(View.GONE);
-                calendar.setVisibility(View.VISIBLE);
                 div.setVisibility(View.VISIBLE);
-
+                calendar.setVisibility(View.VISIBLE);
+                //Add EventDecorators
                 dates.clear();
-                for (int i=0;i<state.items().size();i++){
-                    EventModel model = state.items().get(i);
-
-                    if (model.dueDate() !=null){
-                        LocalDate localDate  = Instant.ofEpochMilli
-                                (model.dueDate().getTimeInMillis())
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate();
-                        dates.add(CalendarDay.from(localDate));
-                    }
-                }
+                addModelsToDatesList(state.items());
                 calendar.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.colorPrimary), dates));
+                if (filtered){
+                    bottomAppBar.replaceMenu(R.menu.actions_home);
+                } else {
+                    bottomAppBar.replaceMenu(R.menu.empty);
+                }
 
             }
         } else {
             progress.setVisibility(View.VISIBLE);
             empty.setVisibility(View.GONE);
+            calendar.setVisibility(View.GONE);
         }
     }
 
