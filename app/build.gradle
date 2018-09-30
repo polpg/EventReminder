@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 
 ext.versionMajor = 0
-ext.versionMinor = 1
-ext.versionPatch = 0
+ext.versionMinor = 2
+ext.versionPatch = 1
 ext.versionClassifier = null
-ext.isSnapshot = true
+ext.isSnapshot = false
 ext.minimumSdkVersion = 16
 
 android {
@@ -41,6 +41,7 @@ android {
     }
 }
 
+//https://stackoverflow.com/questions/46014619
 private Integer generateVersionCode() {
     return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
 }
@@ -60,13 +61,13 @@ private String generateVersionName() {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
-    implementation 'androidx.fragment:fragment:1.0.0-rc02'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
-    implementation 'com.google.android.material:material:1.0.0-rc02'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0-rc02'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.0.0-rc01'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams:2.0.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'androidx.room:room-runtime:2.0.0-rc01'
     implementation 'androidx.room:room-rxjava2:2.0.0-rc01'
