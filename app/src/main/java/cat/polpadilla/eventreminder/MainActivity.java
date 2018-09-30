@@ -1,9 +1,7 @@
 package cat.polpadilla.eventreminder;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Set default state of app (Upcoming Events)
+        //Set default state of app (HomeFragment)
         if (findViewById(R.id.fragment_container) !=null){
             if (savedInstanceState !=null){
                 return;
@@ -36,11 +34,6 @@ public class MainActivity extends AppCompatActivity
 
         bottomAppBar = findViewById(R.id.bottomAppBar);
         FloatingActionButton fab  = findViewById(R.id.fab);
-
-        bottomAppBar.setNavigationOnClickListener((View v) ->{
-            Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
-
-        });
 
         getSupportFragmentManager().addOnBackStackChangedListener(() ->{
             Fragment current =  getSupportFragmentManager().findFragmentByTag("current");
