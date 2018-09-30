@@ -1,20 +1,11 @@
 package cat.polpadilla.eventreminder;
 
-import androidx.appcompat.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +18,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import cat.polpadilla.eventreminder.databinding.EventEditBinding;
 
 public class EditFragment extends Fragment
@@ -74,6 +71,8 @@ public class EditFragment extends Fragment
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         if (getModelId()!=null){
             bottomAppBar.replaceMenu(R.menu.actions_edit);
+        } else {
+            bottomAppBar.replaceMenu(R.menu.empty);
         }
         bottomAppBar.setOnMenuItemClickListener((MenuItem item) ->{
             if (item.getItemId()==R.id.delete){

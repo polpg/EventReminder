@@ -67,9 +67,7 @@ public class HomeFragment extends Fragment {
         bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setOnMenuItemClickListener((MenuItem item) ->{
             if (item.getItemId()==R.id.reset_filter){
-                filtered=false;
-                calendar.clearSelection();
-                viewModel.process(Action.filter(CalendarDay.today().getDate()));
+                clearFilters();
                 Toast.makeText(getContext(), R.string.cleared_filters, Toast.LENGTH_SHORT).show();
                 return true;
             }
@@ -109,6 +107,18 @@ public class HomeFragment extends Fragment {
                 dates.add(CalendarDay.from(localDate));
             }
         }
+    }
+
+    public void clearFilters (){
+        filtered=false;
+        calendar.clearSelection();
+        viewModel.process(Action.filter(CalendarDay.today().getDate()));
+    }
+
+    @Override
+    public void onStop() {
+        clearFilters();
+        super.onStop();
     }
 
     public void render(ViewState state){
