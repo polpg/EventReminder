@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -52,6 +53,9 @@ public class DisplayFragment extends Fragment {
         fab.setOnClickListener((View v) ->((Contract)getActivity()).editModel(binding.getModel()));
 
         fab.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_edit_white_24dp));
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         return binding.getRoot();
     }
 

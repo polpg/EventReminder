@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity
@@ -17,21 +18,30 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar= findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         //Set default state of app (HomeFragment)
         if (findViewById(R.id.fragment_container) !=null){
             if (savedInstanceState !=null){
                 return;
             }
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new HomeFragment(), "current")
+                    .add(R.id.fragment_container, new HomeFragment())
                     .commit();
         }
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finishEdit(false);
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
     public void showModel(EventModel model){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, DisplayFragment.newInstance(model), "current")
+                .replace(R.id.fragment_container, DisplayFragment.newInstance(model))
                 .addToBackStack(BACK_STACK_SHOW)
                 .commit();
 
@@ -40,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void editModel(EventModel model){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, EditFragment.newInstance(model),"current")
+                .replace(R.id.fragment_container, EditFragment.newInstance(model))
                 .addToBackStack(null)
                 .commit();
 
