@@ -49,6 +49,8 @@
         android:id="@+id/textEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/empty_padding"
         android:text="@string/msg_empty"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="gone"
