@@ -21,6 +21,7 @@ import java.util.Calendar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -67,6 +68,8 @@ public class EditFragment extends Fragment
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener((View v) -> save());
+
+        fab.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_done_white_24dp));
 
         BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         if (getModelId()!=null){

@@ -76,6 +76,8 @@ public class HomeFragment extends Fragment {
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener((View v) -> ((Contract)getActivity()).addModel());
 
+        fab.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_white_24dp));
+
         return result;
     }
 
