@@ -13,10 +13,6 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="ToolbarWhiteArrow" parent="AppTheme">
-        <item name="android:textColorSecondary">@color/colorIcon</item>
-    </style>
-
     <style name="CalendarTextDate" parent="TextAppearance.MaterialCalendarWidget.Date">
         <item name="android:textColor">@color/cal_text_date</item>
         <item name="android:textSize">@dimen/cal_date_size</item>

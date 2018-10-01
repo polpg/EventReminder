@@ -28,7 +28,9 @@
         app:mcv_firstDayOfWeek="monday"
         app:mcv_tileHeight="40dp"
         app:mcv_monthLabels="@array/custom_months"
-        app:mcv_dateTextAppearance="@style/CalendarTextDate"/>
+        app:mcv_dateTextAppearance="@style/CalendarTextDate"
+        app:mcv_leftArrowMask="@drawable/ic_arrow_back_small_black_24dp"
+        app:mcv_rightArrowMask="@drawable/ic_arrow_forward_small_black_24dp"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="0dp"
