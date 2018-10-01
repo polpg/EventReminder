@@ -27,7 +27,10 @@
         app:mcv_calendarMode="week"
         app:mcv_firstDayOfWeek="monday"
         app:mcv_tileHeight="40dp"
-        app:mcv_monthLabels="@array/custom_months"/>
+        app:mcv_monthLabels="@array/custom_months"
+        app:mcv_dateTextAppearance="@style/CalendarTextDate"
+        app:mcv_leftArrowMask="@drawable/ic_arrow_back_small_black_24dp"
+        app:mcv_rightArrowMask="@drawable/ic_arrow_forward_small_black_24dp"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="0dp"
@@ -42,12 +45,14 @@
             android:layout_height="match_parent"
             android:overScrollMode="ifContentScrolls"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <TextView
         android:id="@+id/textEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/empty_padding"
         android:text="@string/msg_empty"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="gone"

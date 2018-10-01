@@ -1,24 +1,20 @@
 package cat.polpadilla.eventreminder;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.Layout;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import cat.polpadilla.eventreminder.databinding.EventDisplayBinding;
 
 public class DisplayFragment extends Fragment {
@@ -50,8 +46,16 @@ public class DisplayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding= EventDisplayBinding.inflate(getLayoutInflater(),container,false);
 
+        BottomAppBar bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
+        bottomAppBar.replaceMenu(R.menu.empty);
+
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener((View v) ->((Contract)getActivity()).editModel(binding.getModel()));
+
+        fab.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_edit_white_24dp));
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         return binding.getRoot();
     }
 

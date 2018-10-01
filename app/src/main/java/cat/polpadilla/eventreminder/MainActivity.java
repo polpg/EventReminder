@@ -1,22 +1,16 @@
 package cat.polpadilla.eventreminder;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
-
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 
 public class MainActivity extends AppCompatActivity
         implements HomeFragment.Contract, DisplayFragment.Contract, EditFragment.Contract{
 
     private static final String BACK_STACK_SHOW="showModel";
-    private BottomAppBar bottomAppBar;
 
 
     @Override
@@ -24,45 +18,31 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Set default state of app (Upcoming Events)
+        Toolbar toolbar= findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        setSupportActionBar(toolbar);
+
+        //Set default state of app (HomeFragment)
         if (findViewById(R.id.fragment_container) !=null){
             if (savedInstanceState !=null){
                 return;
             }
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, new HomeFragment(), "current")
+                    .add(R.id.fragment_container, new HomeFragment())
                     .commit();
         }
+    }
 
-        bottomAppBar = findViewById(R.id.bottomAppBar);
-        FloatingActionButton fab  = findViewById(R.id.fab);
-
-        bottomAppBar.setNavigationOnClickListener((View v) ->{
-            Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
-
-        });
-
-        getSupportFragmentManager().addOnBackStackChangedListener(() ->{
-            Fragment current =  getSupportFragmentManager().findFragmentByTag("current");
-            if (current instanceof HomeFragment){
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_add_white_24dp));
-            } else if (current instanceof EditFragment){
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_done_white_24dp));
-            } else if (current instanceof DisplayFragment){
-                bottomAppBar.replaceMenu(R.menu.empty);
-                fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_white_24dp));
-                bottomAppBar.setFabAlignmentMode(BottomAppBar.FAB_ALIGNMENT_MODE_END);
-            }
-        });
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        finishEdit(false);
+        return super.onSupportNavigateUp();
     }
 
     @Override
     public void showModel(EventModel model){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, DisplayFragment.newInstance(model), "current")
+                .replace(R.id.fragment_container, DisplayFragment.newInstance(model))
                 .addToBackStack(BACK_STACK_SHOW)
                 .commit();
 
@@ -71,7 +51,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void editModel(EventModel model){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, EditFragment.newInstance(model),"current")
+                .replace(R.id.fragment_container, EditFragment.newInstance(model))
                 .addToBackStack(null)
                 .commit();
 
