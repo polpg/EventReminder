@@ -109,9 +109,11 @@ public class HomeFragment extends Fragment {
     }
 
     public void clearFilters (){
-        filtered=false;
-        calendar.clearSelection();
-        viewModel.process(Action.filter(CalendarDay.today().getDate()));
+        if (filtered){
+            filtered=false;
+            calendar.clearSelection();
+            viewModel.process(Action.filter(CalendarDay.today().getDate()));
+        }
     }
 
     @Override
@@ -123,35 +125,51 @@ public class HomeFragment extends Fragment {
     public void render(ViewState state){
         adapter.setState(state);
 
+        //Go to selected Date
         if (calendar.getSelectedDate()!=null){
             calendar.setCurrentDate(calendar.getSelectedDate());
         } else {
             calendar.setCurrentDate(CalendarDay.today(), true);
         }
 
-        if (state.isLoaded()){
+        // If state is loaded, hide progress bar
+        if (state.isLoaded()) {
             progress.setVisibility(View.GONE);
 
-            if (state.items().size()==0) {
+            /*
+             * If there's no added events:
+             *  Set TextView empty VISIBLE & change text to "msg_empty"
+             *  Do NOT show Calendar nor Divider
+             *  Set bottomAppBar to empty
+             */
+            if (state.items().size() == 0) {
                 empty.setVisibility(View.VISIBLE);
                 empty.setText(R.string.msg_empty);
                 div.setVisibility(View.GONE);
                 calendar.setVisibility(View.GONE);
                 bottomAppBar.replaceMenu(R.menu.empty);
 
-            } else if (state.filteredItems().size()==0){
+            }
+            /*
+             * If there's added events but not in the day that is filtered:
+             * Set TextView empty VISIBLE & change text to "msg_empty_day"
+             * Show Calendar and Divider
+             * If the date is filtered: show filter button
+             */
+            else if (state.filteredItems().size() == 0) {
                 empty.setVisibility(View.VISIBLE);
                 empty.setText(R.string.msg_empty_day);
                 div.setVisibility(View.VISIBLE);
                 calendar.setVisibility(View.VISIBLE);
-                if (filtered){
-                    bottomAppBar.replaceMenu(R.menu.actions_home);
-                } else {
-                    bottomAppBar.replaceMenu(R.menu.empty);
-                }
 
-
-            } else {
+            }
+            /*
+             * If there are events to show:
+             * Hide TextView empty
+             * Show Calendar and Divider
+             * Add Dates from events to dates list
+             */
+            else {
                 empty.setVisibility(View.GONE);
                 div.setVisibility(View.VISIBLE);
                 calendar.setVisibility(View.VISIBLE);
@@ -159,17 +177,25 @@ public class HomeFragment extends Fragment {
                 dates.clear();
                 addModelsToDatesList(state.items());
                 calendar.addDecorator(new EventDecorator(ContextCompat.getColor(getContext(), R.color.colorPrimary), dates));
-                if (filtered){
-                    bottomAppBar.replaceMenu(R.menu.actions_home);
-                } else {
-                    bottomAppBar.replaceMenu(R.menu.empty);
-                }
-
             }
-        } else {
+
+            if (filtered) {
+                bottomAppBar.replaceMenu(R.menu.actions_home);
+            } else {
+                bottomAppBar.replaceMenu(R.menu.empty);
+            }
+
+        }
+        /*
+        * If state hasn't loaded yet:
+        * Show Progress bar
+        * Hide everything else
+        */
+        else {
             progress.setVisibility(View.VISIBLE);
             empty.setVisibility(View.GONE);
             calendar.setVisibility(View.GONE);
+            div.setVisibility(View.GONE);
         }
     }
 
