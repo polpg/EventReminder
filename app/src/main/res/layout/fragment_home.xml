@@ -27,7 +27,8 @@
         app:mcv_calendarMode="week"
         app:mcv_firstDayOfWeek="monday"
         app:mcv_tileHeight="40dp"
-        app:mcv_monthLabels="@array/custom_months"/>
+        app:mcv_monthLabels="@array/custom_months"
+        app:mcv_dateTextAppearance="@style/CalendarTextDate"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="0dp"
@@ -42,8 +43,8 @@
             android:layout_height="match_parent"
             android:overScrollMode="ifContentScrolls"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <TextView
         android:id="@+id/textEmpty"
         android:layout_width="wrap_content"

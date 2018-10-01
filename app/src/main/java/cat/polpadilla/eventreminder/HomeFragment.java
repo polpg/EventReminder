@@ -59,10 +59,9 @@ public class HomeFragment extends Fragment {
                 new TodayDecorator(getContext(), R.color.colorPrimaryDark));
 
         calendar.setOnDateChangedListener((@NonNull MaterialCalendarView calendarView, @NonNull CalendarDay calendarDay, boolean b) ->{
-                    viewModel.process(Action.filter(calendarDay.getDate()));
                     filtered=true;
+                    viewModel.process(Action.filter(calendarDay.getDate()));
                 });
-
 
         bottomAppBar = getActivity().findViewById(R.id.bottomAppBar);
         bottomAppBar.setOnMenuItemClickListener((MenuItem item) ->{
