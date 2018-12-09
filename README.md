@@ -3,7 +3,7 @@
 
 Event Reminder és una aplicació per a **Android** que permet a l'usuari organitzar-se les tasques en un calendari.
 
-![ ](https://imgur.com/a/7NcFwSJ)
+![ ](eventreminder.png)
 
 ## Funcions
 - Llista dels esdeveniments creats.
@@ -17,7 +17,7 @@ Aquesta aplicació va ser creada pel Treball de Recerca de Batxillerat del Pol P
 
 Event Reminder is an app for **Android** that allows users to  permet a l'usuari organize their chores in a calendar.
 
-![ ](https://imgur.com/a/7NcFwSJ)
+![ ](eventreminder.png)
 
 ## Features
 - List of created events.
