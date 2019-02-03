@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="cat.polpadilla.eventreminder.EventModel"/>
+            type="com.polpg.eventreminder.EventModel"/>
 
         <variable
             name="dueDate"

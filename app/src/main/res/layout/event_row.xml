@@ -7,11 +7,11 @@
 
         <variable
             name="model"
-            type="cat.polpadilla.eventreminder.EventModel"/>
+            type="com.polpg.eventreminder.EventModel"/>
 
         <variable
             name="holder"
-            type="cat.polpadilla.eventreminder.RosterRowHolder"/>
+            type="com.polpg.eventreminder.RosterRowHolder"/>
 
         <variable
             name="dueDate"
