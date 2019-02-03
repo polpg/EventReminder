@@ -11,14 +11,14 @@ ext.minimumSdkVersion = 16
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "cat.polpadilla.eventreminder"
+        applicationId "com.polpg.eventreminder"
         minSdkVersion project.ext.minimumSdkVersion
         targetSdkVersion 28
         versionCode generateVersionCode()
         versionName generateVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        testApplicationId "cat.polpadilla.eventreminder.test"
+        testApplicationId "com.polpg.eventreminder.test"
     }
     buildTypes {
         release {
